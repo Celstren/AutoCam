@@ -10,6 +10,7 @@ class AppTextfield extends StatelessWidget {
   final bool enabled;
   final String errorText;
   final Function(String) onChanged;
+  final double width;
 
   const AppTextfield({
     Key key,
@@ -20,7 +21,8 @@ class AppTextfield extends StatelessWidget {
     this.enabled = true, 
     this.validator = true,
     this.errorText = "", 
-    this.onChanged,
+    this.onChanged, 
+    this.width,
   }) : super(key: key);
 
   Border get _border {
@@ -37,7 +39,7 @@ class AppTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * .8,
+      width: width ?? MediaQuery.of(context).size.width * .8,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -58,7 +60,7 @@ class AppTextfield extends StatelessWidget {
                   enabled: enabled,
                   controller: controller,
                   onChanged: onChanged,
-                  style: AppTextStyle.darkGreyStyle(fontSize: 18),
+                  style: AppTextStyle.blackStyle(fontSize: 18),
                   decoration: InputDecoration.collapsed(
                     hintText: hintText,
                     hintStyle: AppTextStyle.darkGreyStyle(fontSize: 18),

@@ -65,7 +65,9 @@ class _BookCenterPageState extends State<BookCenterPage> {
             child: Column(
               children: <Widget>[
                 _buildCalendar(),
+                SizedBox(height: 30),
                 _buildAddCar(),
+                SizedBox(height: 10),
                 _buildService(),
                 SizedBox(height: 10),
                 _buildLocation(),
@@ -82,7 +84,6 @@ class _BookCenterPageState extends State<BookCenterPage> {
 
   Widget _buildAddCar() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

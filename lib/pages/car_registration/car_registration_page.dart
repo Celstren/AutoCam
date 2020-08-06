@@ -1,6 +1,8 @@
 import 'package:autocam/models/car/car.dart';
 import 'package:autocam/models/user/user.dart';
 import 'package:autocam/pages/car_registration/car_registration_form.dart';
+import 'package:autocam/pages/car_registration/controller/car_registration_controller.dart';
+import 'package:autocam/pages/car_registration/widgets/car_registration_avatar.dart';
 import 'package:autocam/utils/exports/app_common_widgets.dart';
 import 'package:autocam/utils/exports/app_design.dart';
 import 'package:autocam/utils/global_controllers/global_controllers.dart';
@@ -18,7 +20,15 @@ class CarRegistrationPage extends StatefulWidget {
 }
 
 class _CarRegistrationPageState extends State<CarRegistrationPage> {
+  bool isEdited = false;
   CarRegistrationForm carRegistrationForm = CarRegistrationForm();
+
+  @override
+  void initState() {
+    isEdited = CarRegistrationController().getCarValue().licencePlate.isNotEmpty;
+    if (isEdited) carRegistrationForm.setDefaultValues(CarRegistrationController().getCarValue());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +45,7 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
+                      _buildMainData(),
                       _buildFormFields(),
                       _buildSaveButton(),
                     ],
@@ -78,7 +89,7 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
               ],
             ),
           ),
-          Text(CarRegistrationStrings.Title,
+          Text(isEdited ? CarRegistrationStrings.EditTitle : CarRegistrationStrings.RegistrationTitle,
               textAlign: TextAlign.center,
               style: AppTextStyle.whiteStyle(
                   fontSize: 36, fontFamily: AppFonts.Montserrat_Bold)),
@@ -88,44 +99,91 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
     );
   }
 
+  Widget _buildMainData() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * .05),
+      child: Row(
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: 20),
+              AppTextfield(
+                  width: MediaQuery.of(context).size.width * .35,
+                  label: CarRegistrationStrings.LicencePlate,
+                  hintText: CarRegistrationStrings.LicencePlateHint,
+                  controller: carRegistrationForm.licencePlateController,
+                  validator: carRegistrationForm.validLicencePlateValue,
+                  errorText: CarRegistrationStrings.LicencePlateError,
+                  onChanged: (value) {
+                    if (!carRegistrationForm.validLicencePlateValue) {
+                      setState(() {
+                        carRegistrationForm.validLicencePlateValue = true;
+                      });
+                    }
+                  },
+                  showBorder: true),
+              SizedBox(height: 15),
+              AppTextfield(
+                  width: MediaQuery.of(context).size.width * .35,
+                  label: CarRegistrationStrings.ActualKm,
+                  hintText: CarRegistrationStrings.ActualKmHint,
+                  controller: carRegistrationForm.actualKmController,
+                  validator: carRegistrationForm.validActualKmValue,
+                  errorText: CarRegistrationStrings.ActualKmError,
+                  onChanged: (value) {
+                    if (!carRegistrationForm.validActualKmValue) {
+                      setState(() {
+                        carRegistrationForm.validActualKmValue = true;
+                      });
+                    }
+                  },
+                  showBorder: true),
+              SizedBox(height: 15),
+              AppTextfield(
+                  width: MediaQuery.of(context).size.width * .35,
+                  label: CarRegistrationStrings.Color,
+                  hintText: CarRegistrationStrings.ColorHint,
+                  controller: carRegistrationForm.colorController,
+                  validator: carRegistrationForm.validColorValue,
+                  errorText: CarRegistrationStrings.ColorError,
+                  onChanged: (value) {
+                    if (!carRegistrationForm.validColorValue) {
+                      setState(() {
+                        carRegistrationForm.validColorValue = true;
+                      });
+                    }
+                  },
+                  showBorder: true),
+            ],
+          ),
+          Expanded(
+            child: Container(
+              height: 260,
+              padding: EdgeInsets.only(top: 20, left: 10),
+              child: CarRegistrationAvatar(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildFormFields() {
     return Container(
       width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * .05),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 20),
-          AppTextfield(
-              label: CarRegistrationStrings.LicencePlate,
-              hintText: CarRegistrationStrings.LicencePlateHint,
-              controller: carRegistrationForm.licencePlateController,
-              validator: carRegistrationForm.validLicencePlateValue,
-              errorText: CarRegistrationStrings.LicencePlateError,
-              onChanged: (value) {
-                if (!carRegistrationForm.validLicencePlateValue) {
-                  setState(() {
-                    carRegistrationForm.validLicencePlateValue = true;
-                  });
-                }
-              },
-              showBorder: true),
           SizedBox(height: 15),
           AppTextfield(
-              label: CarRegistrationStrings.CompanyName,
-              hintText: CarRegistrationStrings.CompanyNameHint,
-              controller: carRegistrationForm.companyNameController,
-              validator: carRegistrationForm.validCompanyNameValue,
-              errorText: CarRegistrationStrings.CompanyNameError,
-              onChanged: (value) {
-                if (!carRegistrationForm.validCompanyNameValue) {
-                  setState(() {
-                    carRegistrationForm.validCompanyNameValue = true;
-                  });
-                }
-              },
-              showBorder: true),
-          SizedBox(height: 15),
-          AppTextfield(
+              width: MediaQuery.of(context).size.width * .9,
               label: CarRegistrationStrings.OwnerName,
               hintText: CarRegistrationStrings.OwnerNameHint,
               controller: carRegistrationForm.ownerNameController,
@@ -141,21 +199,23 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
               showBorder: true),
           SizedBox(height: 15),
           AppTextfield(
-              label: CarRegistrationStrings.ActualKm,
-              hintText: CarRegistrationStrings.ActualKmHint,
-              controller: carRegistrationForm.actualKmController,
-              validator: carRegistrationForm.validActualKmValue,
-              errorText: CarRegistrationStrings.ActualKmError,
+              width: MediaQuery.of(context).size.width * .9,
+              label: CarRegistrationStrings.CompanyName,
+              hintText: CarRegistrationStrings.CompanyNameHint,
+              controller: carRegistrationForm.companyNameController,
+              validator: carRegistrationForm.validCompanyNameValue,
+              errorText: CarRegistrationStrings.CompanyNameError,
               onChanged: (value) {
-                if (!carRegistrationForm.validActualKmValue) {
+                if (!carRegistrationForm.validCompanyNameValue) {
                   setState(() {
-                    carRegistrationForm.validActualKmValue = true;
+                    carRegistrationForm.validCompanyNameValue = true;
                   });
                 }
               },
               showBorder: true),
           SizedBox(height: 15),
           AppTextfield(
+              width: MediaQuery.of(context).size.width * .9,
               label: CarRegistrationStrings.Address,
               hintText: CarRegistrationStrings.AddressHint,
               controller: carRegistrationForm.addressController,
@@ -171,6 +231,7 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
               showBorder: true),
           SizedBox(height: 15),
           AppTextfield(
+              width: MediaQuery.of(context).size.width * .9,
               label: CarRegistrationStrings.Phone,
               hintText: CarRegistrationStrings.PhoneHint,
               controller: carRegistrationForm.phoneController,
@@ -186,6 +247,7 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
               showBorder: true),
           SizedBox(height: 15),
           AppTextfield(
+              width: MediaQuery.of(context).size.width * .9,
               label: CarRegistrationStrings.Email,
               hintText: CarRegistrationStrings.EmailHint,
               controller: carRegistrationForm.emailController,
@@ -201,6 +263,7 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
               showBorder: true),
           SizedBox(height: 15),
           AppTextfield(
+              width: MediaQuery.of(context).size.width * .9,
               label: CarRegistrationStrings.Brand,
               hintText: CarRegistrationStrings.BrandHint,
               controller: carRegistrationForm.brandController,
@@ -216,6 +279,7 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
               showBorder: true),
           SizedBox(height: 15),
           AppTextfield(
+              width: MediaQuery.of(context).size.width * .9,
               label: CarRegistrationStrings.Model,
               hintText: CarRegistrationStrings.ModelHint,
               controller: carRegistrationForm.modelController,
@@ -231,21 +295,7 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
               showBorder: true),
           SizedBox(height: 15),
           AppTextfield(
-              label: CarRegistrationStrings.Color,
-              hintText: CarRegistrationStrings.ColorHint,
-              controller: carRegistrationForm.colorController,
-              validator: carRegistrationForm.validColorValue,
-              errorText: CarRegistrationStrings.ColorError,
-              onChanged: (value) {
-                if (!carRegistrationForm.validColorValue) {
-                  setState(() {
-                    carRegistrationForm.validColorValue = true;
-                  });
-                }
-              },
-              showBorder: true),
-          SizedBox(height: 15),
-          AppTextfield(
+              width: MediaQuery.of(context).size.width * .9,
               label: CarRegistrationStrings.Year,
               hintText: CarRegistrationStrings.YearHint,
               controller: carRegistrationForm.yearController,
@@ -261,6 +311,7 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
               showBorder: true),
           SizedBox(height: 15),
           AppTextfield(
+              width: MediaQuery.of(context).size.width * .9,
               label: CarRegistrationStrings.Dni,
               hintText: CarRegistrationStrings.DniHint,
               controller: carRegistrationForm.dniController,
@@ -276,6 +327,7 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
               showBorder: true),
           SizedBox(height: 15),
           AppTextfield(
+              width: MediaQuery.of(context).size.width * .9,
               label: CarRegistrationStrings.Ruc,
               hintText: CarRegistrationStrings.RucHint,
               controller: carRegistrationForm.rucController,
@@ -308,39 +360,36 @@ class _CarRegistrationPageState extends State<CarRegistrationPage> {
               backgroundColor: AppColors.PrimaryBlue,
               text: CarRegistrationStrings.Save,
               callback: () {
-                if (test) {
+                if (carRegistrationForm.validForm) {
                   User currentUser = GlobalController().getUserValue();
-                  if (currentUser.cars != null) {
-                    currentUser.cars.add(carRegistrationForm.valueCreated);
+                  Car _car = carRegistrationForm.valueCreated;
+                  Car carStream = CarRegistrationController().getCarValue() ?? Car();
+                  _car.imageFile = carStream.imageFile;
+                  _car.imageURL = carStream.imageURL;
+                  if (isEdited) {
+                    currentUser.cars.forEach((element) {
+                      if (element.licencePlate == _car.licencePlate) {
+                        element = _car;
+                      }
+                    });
+                  } else if (currentUser.cars != null) {
+                    currentUser.cars.add(_car);
                   } else {
-                    currentUser.cars = [
-                      Car(
-                        licencePlate: "ABC-123",
-                      )
-                    ];
-                    GlobalController().updateCarSelected(currentUser.cars.first);
+                    currentUser.cars = [_car];
+                    GlobalController()
+                        .updateCarSelected(_car);
                   }
                   GlobalController().updateUser(currentUser);
+                  Navigator.pop(context);
+                } else {
+                  Fluttertoast.showToast(
+                      msg: "Datos ingresados inválidos",
+                      backgroundColor: AppColors.PrimaryDarkGrey,
+                      textColor: AppColors.PrimaryWhite);
+                  setState(() {
+                    carRegistrationForm.setValidatorValues();
+                  });
                 }
-                //if (carRegistrationForm.validForm) {
-                //  User currentUser = GlobalController().getUserValue();
-                //  if (currentUser.cars != null) {
-                //    currentUser.cars.add(carRegistrationForm.valueCreated);
-                //  } else {
-                //    currentUser.cars = [carRegistrationForm.valueCreated];
-                //    GlobalController()
-                //        .updateCarSelected(carRegistrationForm.valueCreated);
-                //  }
-                //  GlobalController().updateUser(currentUser);
-                //} else {
-                //  Fluttertoast.showToast(
-                //      msg: "Datos ingresados inválidos",
-                //      backgroundColor: AppColors.PrimaryDarkGrey,
-                //      textColor: AppColors.PrimaryWhite);
-                //  setState(() {
-                //    carRegistrationForm.setValidatorValues();
-                //  });
-                //}
               },
               style: AppTextStyle.whiteStyle(
                   fontSize: 18, fontFamily: AppFonts.Montserrat_Bold),

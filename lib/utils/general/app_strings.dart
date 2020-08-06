@@ -60,11 +60,13 @@ class HomeNavigationStrings {
 class HomeStrings {
   static const String Home              = "Menú Principal";
   static const String BookCenter        = "Centro de Citas";
+  static const String ServiceHistory    = "Historial de Citas";
   static const String Services          = "Nuestros Servicios";
   static const String Benefits          = "Tus Beneficios";
   static const String Message           = "Mensajes";
   static const String Workshop          = "Talleres";
   static const String Rating            = "Tasación Express";
+  static const String CarList           = "Lista de Autos";
 }
 
 class ServicesStrings {
@@ -116,10 +118,11 @@ class BookCenterStrings {
 }
 
 class CarRegistrationStrings {
-  static const String Title             = "Registrar Nueva Unidad";
+  static const String RegistrationTitle   = "Registrar Nueva Unidad";
+  static const String EditTitle           = "Editar Unidad";
 
   static const String LicencePlate        = "Placa:";
-  static const String LicencePlateHint    = "Placa";
+  static const String LicencePlateHint    = "ABC-000";
   static const String LicencePlateError   = "La placa ingresada es inválida.";
   static const String CompanyName         = "Nombre de Empresa:";
   static const String CompanyNameHint     = "Empresa";
@@ -159,6 +162,53 @@ class CarRegistrationStrings {
   static const String RucError            = "El ruc ingresado es inválido.";
 
   static const String Save                = "Guardar";
+}
+
+class ProfileStrings {
+  static const String Title               = "Mi perfil";
+
+  static const String Name                = "Nombre:";
+  static const String NameHint            = "Usuario";
+  static const String NameError           = "El nombre ingresado es inválido.";
+  static const String Mail                = "Correo:";
+  static const String MailHint            = "usuario@gmail.com";
+  static const String MailError           = "El correo ingresado es inválido.";
+  static const String Birthday            = "Fecha de Nacimiento:";
+  static const String BirthdayHint        = "22/10/1996";
+  static const String Address             = "Dirección:";
+  static const String AddressHint         = "Av. Santa Cruz";
+  static const String AddressError        = "La dirección ingresada es inválida.";
+  static const String DNI                 = "DNI:";
+  static const String DNIHint             = "00000000";
+  static const String DNIError            = "El dni ingresado es inválido.";
+  static const String Phone               = "Celular:";
+  static const String PhoneHint           = "999-444-9999";
+  static const String PhoneError          = "El teléfono ingresado es inválido.";
+
+  static const String Save                = "Guardar";
+}
+
+class ServiceHistoryStrings {
+  static const String Title               = "Historial de Servicios";
+
+  static const String LicencePlate        = "Placa:";
+  static const String ShipDate            = "Fecha de Entrega:";
+  static const String ReceiveDate         = "Fecha de Recibimiento:";
+  static const String Status              = "Estado:";
+  static const String Description         = "Glosa:";
+
+  static const String Filter              = "Filtros";
+}
+
+class ServiceFilterStrings {
+  static const String Title               = "Filtros";
+
+  static const String ChooseCar           = "Elige un auto:";
+  static const String ReceiveDate         = "Fecha de Recibimiento:";
+  static const String ShiPDate            = "Fecha de Entrega:";
+  static const String Status              = "Estado:";
+
+  static const String NoCarsRegistered    = "No tiene autos registrados";
 }
 
 class CommonStrings {

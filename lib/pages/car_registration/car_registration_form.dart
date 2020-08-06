@@ -1,21 +1,22 @@
 import 'package:autocam/models/car/car.dart';
 import 'package:autocam/utils/helpers/validators.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CarRegistrationForm {
-  TextEditingController licencePlateController  = new TextEditingController();
-  TextEditingController companyNameController   = new TextEditingController();
-  TextEditingController ownerNameController     = new TextEditingController();
-  TextEditingController actualKmController      = new TextEditingController();
-  TextEditingController addressController       = new TextEditingController();
-  TextEditingController phoneController         = new TextEditingController();
-  TextEditingController emailController         = new TextEditingController();
-  TextEditingController brandController         = new TextEditingController();
-  TextEditingController modelController         = new TextEditingController();
-  TextEditingController colorController         = new TextEditingController();
-  TextEditingController yearController          = new TextEditingController();
-  TextEditingController dniController           = new TextEditingController();
-  TextEditingController rucController           = new TextEditingController();
+  MaskedTextController      licencePlateController    = new MaskedTextController(mask: "AAA-000");
+  TextEditingController     companyNameController     = new TextEditingController();
+  TextEditingController     ownerNameController       = new TextEditingController();
+  MoneyMaskedTextController actualKmController        = new MoneyMaskedTextController(rightSymbol: " km", leftSymbol: "", thousandSeparator: ".", precision: 0, decimalSeparator: "");
+  TextEditingController     addressController         = new TextEditingController();
+  MaskedTextController      phoneController           = new MaskedTextController(mask: "000-000-0000");
+  TextEditingController     emailController           = new TextEditingController();
+  TextEditingController     brandController           = new TextEditingController();
+  TextEditingController     modelController           = new TextEditingController();
+  TextEditingController     colorController           = new TextEditingController();
+  MaskedTextController      yearController            = new MaskedTextController(mask: "0000");
+  MaskedTextController      dniController             = new MaskedTextController(mask: "00000000");
+  MaskedTextController      rucController             = new MaskedTextController(mask: "00000000000");
 
   String get licencePlate => this.licencePlateController.value.text;
   String get companyName  => this.companyNameController.value.text;
@@ -50,8 +51,8 @@ class CarRegistrationForm {
   bool get validOwnerName     => Validators.validString(ownerName);
   bool get validActualKm      => Validators.validString(actualKm);
   bool get validAddress       => Validators.validString(address);
-  bool get validPhone         => Validators.validString(phone);
-  bool get validEmail         => Validators.validString(email);
+  bool get validPhone         => Validators.validNumber(phone.replaceAll("-", ""));
+  bool get validEmail         => Validators.validEmail(email);
   bool get validBrand         => Validators.validString(brand);
   bool get validModel         => Validators.validString(model);
   bool get validColor         => Validators.validString(color);
@@ -104,4 +105,20 @@ class CarRegistrationForm {
     dni:          dni,
     ruc:          ruc,
   );
+
+  void setDefaultValues(Car car) {
+    this.licencePlateController.text  = car.licencePlate;
+    this.companyNameController.text   = car.companyName;
+    this.ownerNameController.text     = car.ownerName;
+    this.actualKmController.text      = car.actualKm;
+    this.addressController.text       = car.address;
+    this.phoneController.text         = car.phone;
+    this.emailController.text         = car.email;
+    this.brandController.text         = car.brand;
+    this.modelController.text         = car.model;
+    this.colorController.text         = car.color;
+    this.yearController.text          = car.year;
+    this.dniController.text           = car.dni;
+    this.rucController.text           = car.ruc;
+  }
 }

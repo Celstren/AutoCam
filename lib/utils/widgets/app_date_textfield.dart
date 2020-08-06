@@ -29,13 +29,13 @@ class _AppDateTextFieldState extends State<AppDateTextField> {
   @override
   void initState() {
     _value =
-        DateFormat("yyyy/MM/dd").format(widget.initialValue ?? DateTime.now());
+        DateFormat("dd/MM/yyyy").format(widget.initialValue ?? DateTime.now());
     super.initState();
   }
 
   void updateValue(DateTime date) {
     setState(() {
-      _value = DateFormat("yyyy/MM/dd").format(date);
+      _value = DateFormat("dd/MM/yyyy").format(date);
       widget.onChange(date);
     });
   }
@@ -52,6 +52,8 @@ class _AppDateTextFieldState extends State<AppDateTextField> {
               onTap: () {
                 FocusScope.of(context).requestFocus(new FocusNode());
                 showDatePicker(
+                  locale: new Locale("es"),
+                  helpText: "",
                   context: context,
                   initialDate: widget.initialValue,
                   firstDate: DateTime(1900),

@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+
 class Car {
   String licencePlate;
   String brand;
@@ -12,6 +16,8 @@ class Car {
   String address;
   String phone;
   String email;
+  String imageURL;
+  File imageFile;
 
   Car({
   this.licencePlate = "",
@@ -27,5 +33,9 @@ class Car {
   this.address = "",
   this.phone = "",
   this.email = "",
+  this.imageURL = "",
+  this.imageFile,
   });
+
+  ImageProvider get image => imageURL != null && imageURL.isNotEmpty ? NetworkImage(imageURL) : (imageFile != null ? FileImage(imageFile) : null);
 }

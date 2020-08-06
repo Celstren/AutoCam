@@ -1,6 +1,7 @@
 import 'package:autocam/models/car/car.dart';
 import 'package:autocam/models/user/user.dart';
 import 'package:autocam/pages/car_registration/car_registration_page.dart';
+import 'package:autocam/pages/car_registration/controller/car_registration_controller.dart';
 import 'package:autocam/pages/navigation/methods/navigation_methods.dart';
 import 'package:autocam/utils/exports/app_design.dart';
 import 'package:autocam/utils/global_controllers/global_controllers.dart';
@@ -21,6 +22,11 @@ class _AppCarSelectorState extends State<AppCarSelector> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 370,
+      decoration: BoxDecoration(
+        color: AppColors.PrimaryWhite,
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -37,7 +43,9 @@ class _AppCarSelectorState extends State<AppCarSelector> {
                 case ConnectionState.active:
                   {
                     cars = userSnapshot.data?.cars ?? [];
-                    carSelected = cars.isNotEmpty ? cars.first : null;
+                    if (carSelected == null) {
+                      carSelected = cars.isNotEmpty ? cars.first : null;
+                    }
                     return _buildCarsDropdown();
                   }
                   break;
@@ -65,10 +73,9 @@ class _AppCarSelectorState extends State<AppCarSelector> {
             child: DropdownButton<Car>(
               isExpanded: true,
               value: carSelected,
-              icon: Icon(Icons.keyboard_arrow_down),
+              icon: Icon(Icons.keyboard_arrow_down, color: AppColors.PrimaryBlue),
               iconSize: 24,
               elevation: 16,
-              style: AppTextStyle.blackStyle(fontSize: AppFontSizes.Text),
               onChanged: (Car newValue) {
                 setState(() {
                   GlobalController().updateCarSelected(newValue);
@@ -82,7 +89,7 @@ class _AppCarSelectorState extends State<AppCarSelector> {
                     margin: EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(color: AppColors.PrimaryWhite),
                     child:
-                        Text(value.licencePlate, style: AppTextStyle.blackStyle()),
+                        Text(value.licencePlate, style: AppTextStyle.blueStyle(fontSize: AppFontSizes.SubTitle1, fontFamily: AppFonts.Montserrat_Bold)),
                   ),
                 );
               }).toList(),
@@ -93,38 +100,18 @@ class _AppCarSelectorState extends State<AppCarSelector> {
   }
 
   Widget _buildAddMore() {
-    TextStyle style = AppTextStyle.whiteStyle(
-      fontSize: AppFontSizes.SubTitle1,
-      fontFamily: AppFonts.Montserrat_Bold,
-    );
-
-    switch (widget.styleType) {
-      case 0:
-        style = AppTextStyle.whiteStyle(
-          fontSize: AppFontSizes.SubTitle1,
-          fontFamily: AppFonts.Montserrat_Bold,
-        );
-        break;
-      case 1:
-        style = AppTextStyle.blueStyle(
-          fontSize: AppFontSizes.SubTitle1,
-          fontFamily: AppFonts.Montserrat_Bold,
-        );
-        break;
-      default:
-        style = AppTextStyle.whiteStyle(
-          fontSize: AppFontSizes.SubTitle1,
-          fontFamily: AppFonts.Montserrat_Bold,
-        );
-        break;
-    }
-
     return FlatButton(
-      onPressed: () => pushWidget(context, CarRegistrationPage()),
+      onPressed: () {
+        CarRegistrationController().updateCar(Car());
+        pushWidget(context, CarRegistrationPage());
+      },
       child: Text(
         "+ Agregar Nueva Unidad",
         textAlign: TextAlign.center,
-        style: style,
+        style: AppTextStyle.blueStyle(
+          fontSize: AppFontSizes.SubTitle1,
+          fontFamily: AppFonts.Montserrat_Bold,
+        ),
       ),
     );
   }

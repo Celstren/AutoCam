@@ -15,6 +15,9 @@ class User {
   String timeZone;
   String licensePlate;
   List<Car> cars;
+  DateTime birthDay;
+  String addres;
+  String dni;
 
   User(
       {this.id = 0,
@@ -26,6 +29,8 @@ class User {
       this.timeZone = "",
       this.licensePlate = "ASD-569",
       this.cars,
+      this.birthDay,
+      this.addres = "",
       });
 
   User.fromJson(Map<String, dynamic> json) {

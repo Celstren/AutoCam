@@ -1,4 +1,6 @@
 import 'package:autocam/models/user/user.dart';
+import 'package:autocam/pages/navigation/methods/navigation_methods.dart';
+import 'package:autocam/pages/profile/profile_page.dart';
 import 'package:autocam/utils/exports/app_common_widgets.dart';
 import 'package:autocam/utils/exports/app_design.dart';
 import 'package:autocam/utils/global_controllers/global_controllers.dart';
@@ -7,7 +9,7 @@ import 'package:flutter/material.dart';
 class HomeDrawerUserData extends StatelessWidget {
   const HomeDrawerUserData({Key key}) : super(key: key);
 
-  Widget _buildUserData(User user) {
+  Widget _buildUserData(BuildContext context, User user) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
@@ -22,7 +24,13 @@ class HomeDrawerUserData extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                AppAvatar(size: 60, user: user),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    pushWidget(context, ProfilePage());
+                  },
+                  child: AppAvatar(size: 60, user: user),
+                ),
               ],
             ),
           ),
@@ -65,7 +73,7 @@ class HomeDrawerUserData extends StatelessWidget {
               return Container();
               break;
             case ConnectionState.active:
-              return _buildUserData(userSnapshot.data ?? User());
+              return _buildUserData(context, userSnapshot.data ?? User());
               break;
             case ConnectionState.done:
               return Container();

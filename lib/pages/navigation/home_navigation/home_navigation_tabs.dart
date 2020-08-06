@@ -7,4 +7,6 @@ enum HomeNavigationTabs {
   message,
   workshop,
   rating,
+  service_history,
+  car_list,
 }

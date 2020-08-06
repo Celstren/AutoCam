@@ -1,4 +1,6 @@
 import 'package:autocam/models/user/user.dart';
+import 'package:autocam/pages/navigation/methods/navigation_methods.dart';
+import 'package:autocam/pages/profile/profile_page.dart';
 import 'package:autocam/utils/exports/app_common_widgets.dart';
 import 'package:autocam/utils/exports/app_design.dart';
 import 'package:autocam/utils/global_controllers/global_controllers.dart';
@@ -28,11 +30,14 @@ class HomeUser extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  AppAvatar(
-                    size: 120,
-                    user: userSnapshot.hasData ? userSnapshot.data : User(),
+                  GestureDetector(
+                    onTap: () => pushWidget(context, ProfilePage()),
+                    child: AppAvatar(
+                      size: 120,
+                      user: userSnapshot.hasData ? userSnapshot.data : User(),
+                    ),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 10),
                   Text(
                     userSnapshot.data.name,
                     style: AppTextStyle.whiteStyle(
@@ -40,14 +45,14 @@ class HomeUser extends StatelessWidget {
                       fontFamily: AppFonts.Montserrat_Bold,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
                   Column(
                     children: <Widget>[
                       Text(
                         userSnapshot.data.email,
                         style: AppTextStyle.whiteStyle(fontSize: 12),
                       ),
-                      SizedBox(height: 5),
+                      SizedBox(height: 10),
                       AppCarSelector(),
                     ],
                   )

@@ -29,9 +29,9 @@ class HomeDrawerOptions extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           children: <Widget>[
-            Icon(iconData, size: 30, color: AppColors.PrimaryBlue),
+            Icon(iconData, size: 30, color: isSelected ? AppColors.PrimaryWhite : AppColors.PrimaryBlue),
             SizedBox(width: 10),
-            Text(text, style: AppTextStyle.blueStyle(fontSize: AppFontSizes.SubTitle1)),
+            Text(text, style: isSelected ? AppTextStyle.whiteStyle(fontSize: AppFontSizes.SubTitle1) : AppTextStyle.blueStyle(fontSize: AppFontSizes.SubTitle1)),
           ],
         ),
       ),
@@ -73,6 +73,24 @@ class HomeDrawerOptions extends StatelessWidget {
                                     HomeNavigationTabs.book_center),
                             isSelected: homeNavTabSnapshot.data ==
                                 HomeNavigationTabs.book_center,
+                          ),
+                          _buildOption(
+                            text: HomeStrings.ServiceHistory,
+                            iconData: Icons.history,
+                            callback: () => HomeNavigationController()
+                                .updateHomeNavigationTab(
+                                    HomeNavigationTabs.service_history),
+                            isSelected: homeNavTabSnapshot.data ==
+                                HomeNavigationTabs.service_history,
+                          ),
+                          _buildOption(
+                            text: HomeStrings.CarList,
+                            iconData: Icons.view_list,
+                            callback: () => HomeNavigationController()
+                                .updateHomeNavigationTab(
+                                    HomeNavigationTabs.car_list),
+                            isSelected: homeNavTabSnapshot.data ==
+                                HomeNavigationTabs.car_list,
                           ),
                           _buildOption(
                             text: HomeStrings.Services,

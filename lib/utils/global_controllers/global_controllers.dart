@@ -6,10 +6,12 @@ class GlobalController {
   static GlobalController _instance;
 
   BehaviorSubject<User> _userStream;
+  BehaviorSubject<User> _userProfileStream;
   BehaviorSubject<Car> _carSelectedStream;
 
   GlobalController._(){
     this._userStream = new BehaviorSubject.seeded(User());
+    this._userProfileStream = new BehaviorSubject.seeded(User());
     this._carSelectedStream = new BehaviorSubject.seeded(Car());
   }
 
@@ -28,6 +30,13 @@ class GlobalController {
   User getUserValue() => _userStream.value;
 
   void updateUser(User data) => _userStream.add(data);
+
+  /// USER PROFILE STREAM METHODS
+  Stream<User> getUserProfileEvents() => _userProfileStream.stream;
+
+  User getUserProfileValue() => _userProfileStream.value;
+
+  void updateUserProfile(User data) => _userProfileStream.add(data);
 
   /// CAR SELECTED STREAM METHODS
   Stream<Car> getCarSelectedEvents() => _carSelectedStream.stream;
